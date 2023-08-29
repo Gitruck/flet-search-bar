@@ -1,0 +1,76 @@
+[project]
+name = "gitruck-flet-search-bar"
+version = "0.0.1"
+description = "基于Flet的搜索组件"
+authors = [
+    {name = "Colsrch", email = "colsrch@foxmail.com"},
+]
+dependencies = [
+    "flet>=0.9.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pre-commit>=3.3.3",
+    "black>=23.7.0",
+    "ruff>=0.0.286",
+]
+
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 120
+target-version = ['py39']
+
+[tool.pyright]
+ignore = [
+    "**/__pypackages__/**/*.py",
+    "**/test*/**/*.py",
+]
+
+[tool.ruff]
+line-length = 120
+
+select = ["E", "F", "I", "UP", "C", "T", "Q"]
+ignore = ["C901", "E501"]
+
+# Exclude a variety of commonly ignored directories.
+extend-exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "**/test*/**/*.py",
+]
+
+target-version = "py39"
+
+[tool.ruff.isort]
+extra-standard-library = ["typing_extensions"]
+
+[tool.ruff.pyupgrade]
+keep-runtime-typing = true
