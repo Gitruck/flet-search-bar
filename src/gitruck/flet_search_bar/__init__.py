@@ -105,6 +105,7 @@ class DropDownSearchBar(ft.UserControl):
         )
         self.origin_data = origin_data
         self.selected_item = None
+        """搜索结果点击后的数据"""
         super().__init__()
 
     def check_instance(self, e: ControlEvent, height):
