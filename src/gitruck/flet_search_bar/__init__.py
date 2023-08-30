@@ -1,4 +1,3 @@
-import asyncio
 import dataclasses
 from dataclasses import field
 
@@ -148,7 +147,7 @@ class DropDownSearchBar(ft.UserControl):
             return
         count = len(self.obj.content.controls[1].controls)
         if count == 0:
-            asyncio.run(self.filter_data_table(e))
+            self.filter_data_table(e)
         else:
             self.check_instance(e, count)
 
@@ -177,10 +176,11 @@ class DropDownSearchBar(ft.UserControl):
                 width=self.style.container.width - 50,
                 height=self.style.result_button.height,
                 on_click=self.on_result_selectd,
+                **kwargs,
             )
         )
 
-    async def filter_data_table(self, e: ControlEvent):
+    def filter_data_table(self, e: ControlEvent):
         if self.search_input.current.value == "":
             self.item_number.current.value = ""
             self.leave(e)
@@ -227,9 +227,9 @@ class DropDownSearchBar(ft.UserControl):
                                 cursor_color=self.style.search_input.cursor_color,
                                 cursor_width=self.style.search_input.cursor_width,
                                 hint_text=self.style.search_input.hint_text,
-                                on_change=lambda e: asyncio.run(self.filter_data_table(e)),
-                                on_focus=lambda e: self.on_focus(e),
-                                on_blur=lambda e: self.on_blur(e),
+                                on_change=self.filter_data_table,
+                                on_focus=self.on_focus,
+                                on_blur=self.on_blur,
                             ),
                             ft.Text(
                                 ref=self.item_number,
