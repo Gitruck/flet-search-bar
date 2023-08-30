@@ -120,10 +120,9 @@ class DropDownSearchBar(ft.UserControl):
         self.obj.height = 50
         self.obj.update()
 
-    async def asy_leave(self, _):
-        # 解决失焦与点击事件冲突
+    def on_blur(self, _):
+        """搜索框失去焦点事件"""
         if not self.is_hover_container:
-            await asyncio.sleep(0.15)
             self.leave(_)
 
     def remove_search_result(self):
@@ -230,7 +229,7 @@ class DropDownSearchBar(ft.UserControl):
                                 hint_text=self.style.search_input.hint_text,
                                 on_change=lambda e: asyncio.run(self.filter_data_table(e)),
                                 on_focus=lambda e: self.on_focus(e),
-                                on_blur=lambda e: asyncio.run(self.asy_leave(e)),
+                                on_blur=lambda e: self.on_blur(e),
                             ),
                             ft.Text(
                                 ref=self.item_number,
