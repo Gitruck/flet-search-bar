@@ -84,11 +84,13 @@ class DropDownSearchBar(ft.UserControl):
     obj: ft.Container
     search_input = Ref[ft.TextField]()
     item_number = Ref[ft.Text]()
+    search_results_column = Ref[ft.Column]()
     is_hover_container: bool = False
 
     def __init__(
         self,
         origin_data: list | dict,
+        on_result_click=None,
         search_input_style: DropdownSearchInputStyle = None,
         item_number_style: DropdownSearchItemNumberStyle = None,
         container_style: DropdownSearchContainerStyle = None,
@@ -103,6 +105,7 @@ class DropDownSearchBar(ft.UserControl):
             icon=icon_style,
         )
         self.origin_data = origin_data
+        self.on_result_click = on_result_click if on_result_click is not None else self.on_result_selectd
         self.selected_item = None
         """搜索结果点击后的数据"""
         super().__init__()
@@ -126,8 +129,7 @@ class DropDownSearchBar(ft.UserControl):
 
     def remove_search_result(self):
         """移除搜索结果"""
-        self.obj.content.controls[1].controls.clear()
-        self.obj.content.controls[1].update()
+        self.search_results_column.current.controls.clear()
         self.item_number.current.value = ""
         self.leave()
 
@@ -145,7 +147,7 @@ class DropDownSearchBar(ft.UserControl):
         """搜索框获取焦点事件"""
         if self.search_input.current.value == "":
             return
-        count = len(self.obj.content.controls[1].controls)
+        count = len(self.search_results_column.current.controls)
         if count == 0:
             self.filter_data_table(e)
         else:
@@ -166,7 +168,7 @@ class DropDownSearchBar(ft.UserControl):
                     color=ft.colors.BLACK54,
                 )
             )
-        self.obj.content.controls[1].controls.append(
+        self.search_results_column.current.controls.append(
             ft.TextButton(
                 key=key,
                 data=data,
@@ -175,7 +177,7 @@ class DropDownSearchBar(ft.UserControl):
                 ),
                 width=self.style.container.width - 50,
                 height=self.style.result_button.height,
-                on_click=self.on_result_selectd,
+                on_click=self.on_result_click,
                 **kwargs,
             )
         )
@@ -242,6 +244,7 @@ class DropDownSearchBar(ft.UserControl):
                     ft.Column(
                         scroll=ft.ScrollMode.AUTO,
                         expand=True,
+                        ref=self.search_results_column,
                     ),
                 ],
             ),
