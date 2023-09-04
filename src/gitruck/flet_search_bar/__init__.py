@@ -50,7 +50,7 @@ class DropdownSearchContainerStyle:
 class DropdownSearchResultButtonStyle:
     """搜索结果按钮样式"""
 
-    height: int = field(default=24)
+    height: int = field(default=26)
 
 
 @dataclasses.dataclass
@@ -115,7 +115,7 @@ class DropDownSearchBar(ft.UserControl):
             self.item_number.current.value = "无结果"
             self.leave(e)
         else:
-            self.obj.height = min(60 + (height * 20), 300)
+            self.obj.height = min(60 + (height * 30), 300)
             self.obj.update()
 
     def leave(self, _=None):
@@ -245,6 +245,7 @@ class DropDownSearchBar(ft.UserControl):
                         scroll=ft.ScrollMode.AUTO,
                         expand=True,
                         ref=self.search_results_column,
+                        spacing=4,
                     ),
                 ],
             ),
